@@ -1,0 +1,86 @@
+<--------By Waqas Masood-------->
+
+class Trie {
+public:
+    /** Initialize your data structure here. */
+       Trie * root=NULL;
+        unordered_map<char,Trie * > add;
+        bool end_of_word=0;
+    Trie() {
+    //    map<char,Trie * > add;
+      //  bool end_of_word=0;
+    }
+    
+    /** Inserts a word into the trie. */
+    void insert(string word) {
+        
+        Trie * ptr=root;
+        
+        //if we are inserting first character of first word
+        if(root==NULL){
+              Trie* node = new Trie();
+            //  node.add[word[i]]=node;
+               root=node;
+               ptr=root;
+              // ptr->end_of_word=0;   
+           }
+        
+       
+        for(int i=0 ; i<word.length(); i++){ 
+            
+            if(ptr->add.empty() || ptr->add.find(word[i])==ptr->add.end()){
+                  Trie* node = new Trie();
+                  ptr->add[word[i]]=node;
+                //  node->end_of_word=0;   
+                  ptr=node;
+         
+            }
+          else{
+                  ptr=ptr->add[word[i]];
+              }
+          
+          }
+        ptr->end_of_word=1; 
+        
+    
+    }
+    
+    /** Returns if the word is in the trie. */
+    bool search(string word) {
+        
+           Trie * ptr=root;
+        if(ptr==NULL)
+            return 0;
+        for(int i=0 ; i<word.length(); i++){ 
+            
+            if(ptr->add.find(word[i])==ptr->add.end()){
+                  return 0;
+            }
+          else{
+                  ptr=ptr->add[word[i]];
+              }
+          
+          }
+        return  ptr->end_of_word;
+    
+    }
+    
+    /** Returns if there is any word in the trie that starts with the given prefix. */
+    bool startsWith(string prefix) {
+         Trie * ptr=root;
+           if(ptr==NULL)
+            return 0;
+        for(int i=0 ; i<prefix.length(); i++){ 
+            
+            if(ptr->add.find(prefix[i])==ptr->add.end()){
+                  return 0;
+            }
+          else{
+                  ptr=ptr->add[prefix[i]];
+              }
+          
+          }
+        return  1;
+        
+    }
+};
